@@ -1,0 +1,8 @@
+spring.application.name=safo-api
+spring.datasource.url=jdbc:mysql://localhost:3306/safo
+spring.datasource.username=safo_user
+spring.datasource.password=safo123@
+spring.jpa.hibernate.ddl-auto=validate
+server.port=8081
+spring.security.user.name=admin
+spring.security.user.password=123456

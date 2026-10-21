@@ -1,0 +1,5 @@
+package com.safo.safoapi.model;
+
+public class Colaborador {
+
+}

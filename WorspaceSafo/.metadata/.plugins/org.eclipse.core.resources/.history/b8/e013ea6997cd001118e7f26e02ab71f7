@@ -1,0 +1,5 @@
+package com.safo.safoapi.repository;
+
+public interface QuadraRepository {
+
+}

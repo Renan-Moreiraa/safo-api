@@ -1,0 +1,5 @@
+package com.safo.safoapi;
+
+public class SecurityConfig {
+
+}

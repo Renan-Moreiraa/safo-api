@@ -1,0 +1,44 @@
+package com.safo.safoapi.controller;
+
+import com.safo.safoapi.model.Reserva;
+import com.safo.safoapi.repository.ReservaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/reservas")
+public class ReservaController {
+
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    @GetMapping
+    public List<Reserva> listarTodas() {
+        return reservaRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Reserva> buscarPorId(@PathVariable Long id) {
+        return reservaRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Reserva criar(@RequestBody Reserva reserva) {
+        return reservaRepository.save(reserva);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletar(@PathVariable Long id) {
+        return reservaRepository.findById(id)
+                .map(reserva -> {
+                    reservaRepository.delete(reserva);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+}

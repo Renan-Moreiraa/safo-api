@@ -1,0 +1,5 @@
+package com.safo.safoapi.dto;
+
+public class EspacoResponseDTO {
+
+}

@@ -1,0 +1,43 @@
+package com.safo.safoapi.model;
+
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "ESPACOS")
+public class Espaco {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_espaco")
+    private Long idEspaco;
+
+    @Column(nullable = false, length = 50)
+    private String nome;
+
+    @Column(nullable = false)
+    private Integer capacidade;
+
+    @Column(name = "valor_base", nullable = false, precision = 10, scale = 2)
+    private BigDecimal valorBase;
+
+    @Column(nullable = false, length = 20)
+    private String status;
+
+    public Espaco() {}
+
+    public Long getIdEspaco() { return idEspaco; }
+    public void setIdEspaco(Long idEspaco) { this.idEspaco = idEspaco; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public Integer getCapacidade() { return capacidade; }
+    public void setCapacidade(Integer capacidade) { this.capacidade = capacidade; }
+
+    public BigDecimal getValorBase() { return valorBase; }
+    public void setValorBase(BigDecimal valorBase) { this.valorBase = valorBase; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+}

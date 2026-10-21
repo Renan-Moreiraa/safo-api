@@ -1,0 +1,48 @@
+package com.safo.safoapi.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "COLABORADORES")
+public class Colaborador {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_colaborador")
+    private Long idColaborador;
+
+    @Column(nullable = false, length = 100)
+    private String nome;
+
+    @Column(nullable = false, length = 11, unique = true)
+    private String cpf;
+
+    @Column(length = 30)
+    private String especialidade;
+
+    @Column(name = "horario_trabalho", length = 50)
+    private String horarioTrabalho;
+
+    @Column(nullable = false, length = 10)
+    private String status;
+
+    public Colaborador() {}
+
+    public Long getIdColaborador() { return idColaborador; }
+    public void setIdColaborador(Long idColaborador) { this.idColaborador = idColaborador; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
+
+    public String getHorarioTrabalho() { return horarioTrabalho; }
+    public void setHorarioTrabalho(String horarioTrabalho) { this.horarioTrabalho = horarioTrabalho; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+}

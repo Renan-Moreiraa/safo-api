@@ -1,0 +1,26 @@
+package com.safo.safoapi.controller;
+
+import com.safo.safoapi.model.Atendimento;
+import com.safo.safoapi.repository.AtendimentoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/atendimentos")
+public class AtendimentoController {
+
+    @Autowired
+    private AtendimentoRepository atendimentoRepository;
+
+    @GetMapping
+    public List<Atendimento> listarTodos() {
+        return atendimentoRepository.findAll();
+    }
+
+    @PostMapping
+    public Atendimento criar(@RequestBody Atendimento atendimento) {
+        return atendimentoRepository.save(atendimento);
+    }
+}
