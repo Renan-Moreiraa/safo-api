@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\renan\OneDrive\Desktop\Safó\WorspaceSafo\safo-api"/>
+			<item value="C:\Users\renan\OneDrive\Desktop\Safó\WorspaceSafo\safo-api\safo-api"/>
 			<item value="C:\Users\renan\OneDrive\Desktop\Facul - Renan Moreira\4°Semestre\Safó\WorspaceSafo\safo-api"/>
 		</list>
 		<list key="projectNameTemplate">
