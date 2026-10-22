@@ -26,7 +26,6 @@ INDEX VERSION 1.134+C:\Users\renan\OneDrive\Desktop\Safó\WorspaceSafo\.metadata
 3462222441.index
 1034303213.index
 2229085926.index
-3097628107.index
 3802034752.index
 964365850.index
 4016892799.index
