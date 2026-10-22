@@ -1,5 +1,6 @@
 package com.safo.safoandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.safo.safoandroid.model.Colaborador;
 import com.safo.safoandroid.network.RetrofitClient;
 import com.safo.safoandroid.network.SafoApiService;
@@ -43,7 +45,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewColaboradores);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Chama a função para buscar os colaboradores na API
+        // Configura a ação de clique no botão flutuante (+)
+        FloatingActionButton fab = findViewById(R.id.fabAdicionar);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recarrega a lista do MySQL sempre que a tela principal voltar a ficar visível
         buscarColaboradores();
     }
 
