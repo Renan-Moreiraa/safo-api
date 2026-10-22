@@ -74,7 +74,23 @@ public class MainActivity extends AppCompatActivity {
                     List<Colaborador> lista = response.body();
                     Log.d(TAG, "Sucesso! Recebidos: " + lista.size() + " colaboradores.");
 
-                    adapter = new ColaboradorAdapter(lista, colaborador -> confirmarExclusao(colaborador));
+                    adapter = new ColaboradorAdapter(lista, new ColaboradorAdapter.OnColaboradorClickListener() {
+                        @Override
+                        public void OnColaboradorClick(Colaborador colaborador) {
+                            Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
+                            intent.putExtra("id", colaborador.getIdColaborador());
+                            intent.putExtra("nome", colaborador.getNome());
+                            intent.putExtra("cpf", colaborador.getCpf());
+                            intent.putExtra("especialidade", colaborador.getEspecialidade());
+                            intent.putExtra("horario", colaborador.getHorarioTrabalho());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void OnColaboradorLongClick(Colaborador colaborador) {
+                            confirmarExclusao(colaborador);
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                 } else {
                     Log.e(TAG, "Erro HTTP: " + response.code());

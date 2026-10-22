@@ -56,4 +56,19 @@ public class ColaboradorController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<ColaboradorResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ColaboradorRequestDTO dto) {
+        return colaboradorRepository.findById(id)
+                .map(colaborador -> {
+                    colaborador.setNome(dto.getNome());
+                    colaborador.setCpf(dto.getCpf());
+                    colaborador.setEspecialidade(dto.getEspecialidade());
+                    colaborador.setHorarioTrabalho(dto.getHorarioTrabalho());
+                    colaborador.setStatus(dto.getStatus());
+                    Colaborador atualizado = colaboradorRepository.save(colaborador);
+                    return ResponseEntity.ok(new ColaboradorResponseDTO(atualizado));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

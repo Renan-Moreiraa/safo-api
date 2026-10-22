@@ -19,6 +19,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     private EditText editNome, editCpf, editEspecialidade, editHorario;
     private Button btnSalvar;
+    private Long idColaboradorEdicao = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,16 @@ public class CadastroActivity extends AppCompatActivity {
         editEspecialidade = findViewById(R.id.editEspecialidade);
         editHorario = findViewById(R.id.editHorario);
         btnSalvar = findViewById(R.id.btnSalvar);
+
+        // Verifica se vieram dados para edição
+        if (getIntent().hasExtra("id")) {
+            idColaboradorEdicao = getIntent().getLongExtra("id", -1);
+            editNome.setText(getIntent().getStringExtra("nome"));
+            editCpf.setText(getIntent().getStringExtra("cpf"));
+            editEspecialidade.setText(getIntent().getStringExtra("especialidade"));
+            editHorario.setText(getIntent().getStringExtra("horario"));
+            btnSalvar.setText("Atualizar Colaborador");
+        }
 
         btnSalvar.setOnClickListener(v -> salvarColaborador());
     }
@@ -45,30 +56,52 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        Colaborador novoColaborador = new Colaborador();
-        novoColaborador.setNome(nome);
-        novoColaborador.setCpf(cpf);
-        novoColaborador.setEspecialidade(especialidade);
-        novoColaborador.setHorarioTrabalho(horario);
-        novoColaborador.setStatus("ATIVO");
+        Colaborador colaborador = new Colaborador();
+        colaborador.setNome(nome);
+        colaborador.setCpf(cpf);
+        colaborador.setEspecialidade(especialidade);
+        colaborador.setHorarioTrabalho(horario);
+        colaborador.setStatus("ATIVO");
 
         SafoApiService apiService = RetrofitClient.getClient().create(SafoApiService.class);
-        apiService.salvarColaborador(novoColaborador).enqueue(new Callback<Colaborador>() {
-            @Override
-            public void onResponse(Call<Colaborador> call, Response<Colaborador> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(CadastroActivity.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                    finish(); // Fecha a tela de cadastro e retorna à lista
-                } else {
-                    Toast.makeText(CadastroActivity.this, "Erro HTTP: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Colaborador> call, Throwable t) {
-                Log.e("API_TESTE", "Erro ao salvar: " + t.getMessage());
-                Toast.makeText(CadastroActivity.this, "Falha na conexão ao salvar", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (idColaboradorEdicao != null && idColaboradorEdicao != -1) {
+            // Executa o PUT para atualizar
+            colaborador.setIdColaborador(idColaboradorEdicao);
+            apiService.atualizarColaborador(idColaboradorEdicao, colaborador).enqueue(new Callback<Colaborador>() {
+                @Override
+                public void onResponse(Call<Colaborador> call, Response<Colaborador> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(CadastroActivity.this, "Atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(CadastroActivity.this, "Erro HTTP: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Colaborador> call, Throwable t) {
+                    Toast.makeText(CadastroActivity.this, "Falha ao atualizar", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Executa o POST para cadastrar novo
+            apiService.salvarColaborador(colaborador).enqueue(new Callback<Colaborador>() {
+                @Override
+                public void onResponse(Call<Colaborador> call, Response<Colaborador> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(CadastroActivity.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(CadastroActivity.this, "Erro HTTP: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Colaborador> call, Throwable t) {
+                    Toast.makeText(CadastroActivity.this, "Falha ao salvar", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

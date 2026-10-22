@@ -14,6 +14,7 @@ import java.util.List;
 public class ColaboradorAdapter extends RecyclerView.Adapter<ColaboradorAdapter.ColaboradorViewHolder> {
 
     public interface OnColaboradorClickListener {
+        void OnColaboradorClick(Colaborador colaborador);
         void OnColaboradorLongClick(Colaborador colaborador);
     }
 
@@ -40,6 +41,14 @@ public class ColaboradorAdapter extends RecyclerView.Adapter<ColaboradorAdapter.
         holder.textEspecialidade.setText("Cargo: " + colab.getEspecialidade());
         holder.textCpfHorario.setText("CPF: " + colab.getCpf() + " | " + colab.getHorarioTrabalho());
 
+        // Clique simples para editar
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.OnColaboradorClick(colab);
+            }
+        });
+
+        // Clique longo para remover
         holder.itemView.setOnLongClickListener(v -> {
             if (listener != null) {
                 listener.OnColaboradorLongClick(colab);
