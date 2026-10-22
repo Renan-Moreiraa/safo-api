@@ -1,5 +1,6 @@
 package com.safo.safoandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -49,9 +50,11 @@ public class QuadrasActivity extends AppCompatActivity {
         swipeRefresh = findViewById(R.id.swipeRefreshQuadras);
         swipeRefresh.setOnRefreshListener(this::buscarQuadras);
 
+        // BOTÃO FLUTUANTE: Abre a tela para CADASTRAR NOVA QUADRA
         FloatingActionButton fab = findViewById(R.id.fabAdicionarQuadra);
         fab.setOnClickListener(v -> {
-            Toast.makeText(QuadrasActivity.this, "Tela de cadastro de quadra em breve!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(QuadrasActivity.this, CadastroQuadraActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -75,11 +78,19 @@ public class QuadrasActivity extends AppCompatActivity {
                     adapter = new QuadraAdapter(lista, new QuadraAdapter.OnQuadraClickListener() {
                         @Override
                         public void OnQuadraClick(Quadra quadra) {
-                            Toast.makeText(QuadrasActivity.this, "Clicou em: " + quadra.getNome(), Toast.LENGTH_SHORT).show();
+                            // CLIQUE CURTO: Abre a tela para EDITAR A QUADRA SELECIONADA
+                            Intent intent = new Intent(QuadrasActivity.this, CadastroQuadraActivity.class);
+                            intent.putExtra("id", quadra.getIdQuadra());
+                            intent.putExtra("nome", quadra.getNome());
+                            intent.putExtra("tipoEsporte", quadra.getTipoEsporte());
+                            intent.putExtra("precoHora", String.valueOf(quadra.getPrecoHora()));
+                            intent.putExtra("status", quadra.getStatus());
+                            startActivity(intent);
                         }
 
                         @Override
                         public void OnQuadraLongClick(Quadra quadra) {
+                            // CLIQUE LONGO: Exibe diálogo de confirmação para deletar
                             confirmarExclusao(quadra);
                         }
                     });

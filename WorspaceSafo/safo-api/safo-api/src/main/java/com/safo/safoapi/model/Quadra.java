@@ -4,24 +4,25 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "quadras")
+@Table(name = "QUADRAS")
 public class Quadra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_quadra")
     private Long idQuadra;
 
-    @Column(nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    private String tipoEsporte; // ex: Futsal, Society, Tênis, Volley
+    @Column(name = "tipo_esporte", nullable = false)
+    private String tipoEsporte;
 
-    @Column(nullable = false)
+    @Column(name = "preco_hora", nullable = false, precision = 10, scale = 2)
     private BigDecimal precoHora;
 
-    @Column(nullable = false)
-    private String status; // ex: DISPONIVEL, MANUTENCAO
+    @Column(name = "status", nullable = false)
+    private String status;
 
     public Quadra() {}
 

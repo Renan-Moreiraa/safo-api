@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">safo-android</string>
+    <string name="app_name">safoandroid</string>
+
+    <string-array name="esportes_array">
+        <item>Futsal</item>
+        <item>Society</item>
+    </string-array>
 </resources>
