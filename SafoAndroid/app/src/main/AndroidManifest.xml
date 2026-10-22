@@ -15,10 +15,10 @@
         android:theme="@style/Theme.Safoandroid"
         android:usesCleartextTraffic="true">
 
+        <!-- Menu Principal passa a ser o Launcher -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:name=".MenuActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,8 +26,18 @@
         </activity>
 
         <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".CadastroActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".QuadrasActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 
