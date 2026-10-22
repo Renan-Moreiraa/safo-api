@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.safo.safoandroid.model.Colaborador;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ColaboradorAdapter extends RecyclerView.Adapter<ColaboradorAdapter.ColaboradorViewHolder> {
@@ -19,11 +20,28 @@ public class ColaboradorAdapter extends RecyclerView.Adapter<ColaboradorAdapter.
     }
 
     private List<Colaborador> colaboradores;
+    private List<Colaborador> colaboradoresOriginal;
     private OnColaboradorClickListener listener;
 
     public ColaboradorAdapter(List<Colaborador> colaboradores, OnColaboradorClickListener listener) {
         this.colaboradores = colaboradores;
+        this.colaboradoresOriginal = new ArrayList<>(colaboradores);
         this.listener = listener;
+    }
+
+    public void filtrar(String texto) {
+        colaboradores.clear();
+        if (texto.isEmpty()) {
+            colaboradores.addAll(colaboradoresOriginal);
+        } else {
+            String busca = texto.toLowerCase().trim();
+            for (Colaborador item : colaboradoresOriginal) {
+                if (item.getNome().toLowerCase().contains(busca) || item.getCpf().contains(busca)) {
+                    colaboradores.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -41,18 +59,12 @@ public class ColaboradorAdapter extends RecyclerView.Adapter<ColaboradorAdapter.
         holder.textEspecialidade.setText("Cargo: " + colab.getEspecialidade());
         holder.textCpfHorario.setText("CPF: " + colab.getCpf() + " | " + colab.getHorarioTrabalho());
 
-        // Clique simples para editar
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.OnColaboradorClick(colab);
-            }
+            if (listener != null) listener.OnColaboradorClick(colab);
         });
 
-        // Clique longo para remover
         holder.itemView.setOnLongClickListener(v -> {
-            if (listener != null) {
-                listener.OnColaboradorLongClick(colab);
-            }
+            if (listener != null) listener.OnColaboradorLongClick(colab);
             return true;
         });
     }
