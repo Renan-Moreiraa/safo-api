@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,6 +32,7 @@ public class QuadrasActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private QuadraAdapter adapter;
     private SwipeRefreshLayout swipeRefresh;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,22 @@ public class QuadrasActivity extends AppCompatActivity {
         swipeRefresh = findViewById(R.id.swipeRefreshQuadras);
         swipeRefresh.setOnRefreshListener(this::buscarQuadras);
 
-        // BOTÃO FLUTUANTE: Abre a tela para CADASTRAR NOVA QUADRA
+        searchView = findViewById(R.id.searchViewQuadras);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (adapter != null) {
+                    adapter.filtrar(newText);
+                }
+                return true;
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fabAdicionarQuadra);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(QuadrasActivity.this, CadastroQuadraActivity.class);
@@ -78,7 +95,6 @@ public class QuadrasActivity extends AppCompatActivity {
                     adapter = new QuadraAdapter(lista, new QuadraAdapter.OnQuadraClickListener() {
                         @Override
                         public void OnQuadraClick(Quadra quadra) {
-                            // CLIQUE CURTO: Abre a tela para EDITAR A QUADRA SELECIONADA
                             Intent intent = new Intent(QuadrasActivity.this, CadastroQuadraActivity.class);
                             intent.putExtra("id", quadra.getIdQuadra());
                             intent.putExtra("nome", quadra.getNome());
@@ -90,7 +106,6 @@ public class QuadrasActivity extends AppCompatActivity {
 
                         @Override
                         public void OnQuadraLongClick(Quadra quadra) {
-                            // CLIQUE LONGO: Exibe diálogo de confirmação para deletar
                             confirmarExclusao(quadra);
                         }
                     });

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.safo.safoandroid.model.Quadra;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuadraAdapter extends RecyclerView.Adapter<QuadraAdapter.QuadraViewHolder> {
@@ -19,11 +20,29 @@ public class QuadraAdapter extends RecyclerView.Adapter<QuadraAdapter.QuadraView
     }
 
     private List<Quadra> quadras;
+    private List<Quadra> quadrasOriginal;
     private OnQuadraClickListener listener;
 
     public QuadraAdapter(List<Quadra> quadras, OnQuadraClickListener listener) {
         this.quadras = quadras;
+        this.quadrasOriginal = new ArrayList<>(quadras);
         this.listener = listener;
+    }
+
+    public void filtrar(String texto) {
+        quadras.clear();
+        if (texto.isEmpty()) {
+            quadras.addAll(quadrasOriginal);
+        } else {
+            String busca = texto.toLowerCase().trim();
+            for (Quadra item : quadrasOriginal) {
+                if (item.getNome().toLowerCase().contains(busca) ||
+                        item.getTipoEsporte().toLowerCase().contains(busca)) {
+                    quadras.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
