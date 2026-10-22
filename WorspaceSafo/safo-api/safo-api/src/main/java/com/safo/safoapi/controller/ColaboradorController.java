@@ -47,4 +47,13 @@ public class ColaboradorController {
         Colaborador salvo = colaboradorRepository.save(colaborador);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ColaboradorResponseDTO(salvo));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        if (colaboradorRepository.existsById(id)) {
+            colaboradorRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -87,3 +87,12 @@
 2026-10-22 17:21:21.609: [INFO] BookmarksLoadDropped droppedNodes=0
 2026-10-22 17:21:21.609: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
 2026-10-22 17:49:22.934: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-22 21:38:43.066: [INFO] CurrentProfilePath: C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-10-22 21:38:43.066: [INFO] Profiles total count: 1
+2026-10-22 21:38:43.066: [INFO] Profile: name=Perfil 1 path=C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-10-21T16:22:34.358Z
+2026-10-22 21:38:43.066: [INFO] LastUsedProfileDir: C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-10-22 21:38:43.066: [INFO] MostRecentlyActiveProfile: name=Perfil 1 path=C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-10-21T16:22:34.358Z
+2026-10-22 21:38:43.066: [INFO] OnDoneLoading sync enabled: 0
+2026-10-22 21:38:43.066: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-22 21:38:43.066: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-22 21:38:43.066: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
