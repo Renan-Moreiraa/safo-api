@@ -3,6 +3,7 @@ package com.safo.safoandroid.network;
 import com.safo.safoandroid.model.Agendamento;
 import com.safo.safoandroid.model.Colaborador;
 import com.safo.safoandroid.model.Quadra;
+import com.safo.safoandroid.model.Usuario;
 
 import java.util.List;
 
@@ -51,4 +52,11 @@ public interface SafoApiService {
 
     @DELETE("agendamentos/{id}")
     Call<Void> deletarAgendamento(@Path("id") Long id);
+
+    // --- AUTENTICAÇÃO ---
+    @POST("auth/login")
+    Call<Usuario> login(@Body LoginDTO loginDTO);
+
+    @POST("auth/register")
+    Call<Usuario> cadastrar(@Body Usuario usuario);
 }
