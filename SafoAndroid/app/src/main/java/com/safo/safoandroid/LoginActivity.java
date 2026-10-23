@@ -32,6 +32,12 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(v -> realizarLogin());
+
+        Button btnIrParaCadastro = findViewById(R.id.btnIrParaCadastro);
+        btnIrParaCadastro.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, CadastroUsuarioActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void realizarLogin() {
