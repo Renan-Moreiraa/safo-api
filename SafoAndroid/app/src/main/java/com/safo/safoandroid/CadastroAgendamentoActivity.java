@@ -78,29 +78,73 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
 
     private void abrirSeletorDataHora(EditText campoTarget) {
         Calendar c = Calendar.getInstance();
-        int ano = c.get(Calendar.YEAR);
-        int mes = c.get(Calendar.MONTH);
-        int dia = c.get(Calendar.DAY_OF_MONTH);
+
+        if (campoTarget == editDataHoraFim && !editDataHoraInicio.getText().toString().isEmpty()) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                Date inicioDate = sdf.parse(editDataHoraInicio.getText().toString());
+                if (inicioDate != null) {
+                    c.setTime(inicioDate);
+                    c.add(Calendar.HOUR_OF_DAY, 1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        int anoInicial = c.get(Calendar.YEAR);
+        int mesInicial = c.get(Calendar.MONTH);
+        int diaInicial = c.get(Calendar.DAY_OF_MONTH);
+        int horaInicial = c.get(Calendar.HOUR_OF_DAY);
+        int minutoInicial = c.get(Calendar.MINUTE);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            int hora = c.get(Calendar.HOUR_OF_DAY);
-            int minuto = c.get(Calendar.MINUTE);
-
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timeView, hourOfDay, minute) -> {
-                // REGRA 1: Arredonda os minutos para 00 ou 30 (o mais próximo)
-                int minutoAjustado = (minute < 15 || minute >= 45) ? 0 : 30;
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timeView, hourOfDay, minuteSelection) -> {
+                int minutoAjustado = (minuteSelection < 15 || minuteSelection >= 45) ? 0 : 30;
                 int horaAjustada = hourOfDay;
-                if (minute >= 45) {
+                if (minuteSelection >= 45) {
                     horaAjustada = (hourOfDay + 1) % 24;
                 }
 
+                // Criamos variáveis locais mutáveis para armazenar o resultado final
+                int anoFinal = year;
+                int mesFinal = month;
+                int diaFinal = dayOfMonth;
+                int horaFinal = horaAjustada;
+                int minutoFinal = minutoAjustado;
+
+                if (campoTarget == editDataHoraFim && !editDataHoraInicio.getText().toString().isEmpty()) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                        Date inicioDate = sdf.parse(editDataHoraInicio.getText().toString());
+
+                        Calendar calFim = Calendar.getInstance();
+                        calFim.set(year, month, dayOfMonth, horaAjustada, minutoAjustado, 0);
+
+                        if (inicioDate != null && calFim.getTime().before(new Date(inicioDate.getTime() + 3600000L))) {
+                            calFim.setTime(inicioDate);
+                            calFim.add(Calendar.HOUR_OF_DAY, 1);
+
+                            anoFinal = calFim.get(Calendar.YEAR);
+                            mesFinal = calFim.get(Calendar.MONTH);
+                            diaFinal = calFim.get(Calendar.DAY_OF_MONTH);
+                            horaFinal = calFim.get(Calendar.HOUR_OF_DAY);
+                            minutoFinal = calFim.get(Calendar.MINUTE);
+
+                            Toast.makeText(this, "Ajustado para respeitar o mínimo de 1h de duração.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 String dataFormatada = String.format(Locale.getDefault(), "%04d-%02d-%02dT%02d:%02d:00",
-                        year, month + 1, dayOfMonth, horaAjustada, minutoAjustado);
+                        anoFinal, mesFinal + 1, diaFinal, horaFinal, minutoFinal);
                 campoTarget.setText(dataFormatada);
-            }, hora, minuto, true);
+            }, horaInicial, minutoInicial, true);
             timePickerDialog.show();
 
-        }, ano, mes, dia);
+        }, anoInicial, mesInicial, diaInicial);
         datePickerDialog.show();
     }
 
