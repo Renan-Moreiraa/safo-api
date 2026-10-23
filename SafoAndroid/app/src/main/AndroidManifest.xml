@@ -60,6 +60,10 @@
             android:name=".CadastroUsuarioActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".MenuClienteActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

@@ -60,13 +60,11 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Bem-vindo, " + usuario.getNome() + "!", Toast.LENGTH_SHORT).show();
 
                     if ("ADMIN".equalsIgnoreCase(usuario.getPerfil())) {
-                        // Direciona para o Painel Administrativo atual
                         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        // Visão do Cliente (podemos direcionar para as quadras/agendamentos do cliente)
-                        Intent intent = new Intent(LoginActivity.this, QuadrasActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MenuClienteActivity.class);
                         startActivity(intent);
                         finish();
                     }
