@@ -16,8 +16,11 @@ import com.safo.safoandroid.model.Quadra;
 import com.safo.safoandroid.network.RetrofitClient;
 import com.safo.safoandroid.network.SafoApiService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,8 +87,15 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
             int minuto = c.get(Calendar.MINUTE);
 
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timeView, hourOfDay, minute) -> {
+                // REGRA 1: Arredonda os minutos para 00 ou 30 (o mais próximo)
+                int minutoAjustado = (minute < 15 || minute >= 45) ? 0 : 30;
+                int horaAjustada = hourOfDay;
+                if (minute >= 45) {
+                    horaAjustada = (hourOfDay + 1) % 24;
+                }
+
                 String dataFormatada = String.format(Locale.getDefault(), "%04d-%02d-%02dT%02d:%02d:00",
-                        year, month + 1, dayOfMonth, hourOfDay, minute);
+                        year, month + 1, dayOfMonth, horaAjustada, minutoAjustado);
                 campoTarget.setText(dataFormatada);
             }, hora, minuto, true);
             timePickerDialog.show();
@@ -148,9 +158,15 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
             return;
         }
 
-        // Validação de horário: início deve ser anterior ao fim
+        // Validação básica: início deve ser anterior ao fim
         if (inicio.compareTo(fim) >= 0) {
             Toast.makeText(this, "O horário de fim deve ser posterior ao horário de início!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // REGRA 2: Valida se a duração do agendamento é de no mínimo 1 hora (60 minutos)
+        if (!validarDuracaoMinima(inicio, fim)) {
+            Toast.makeText(this, "O agendamento deve ter no mínimo 1 hora de duração!", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -180,5 +196,23 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
                 Toast.makeText(CadastroAgendamentoActivity.this, "Falha na conexão", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean validarDuracaoMinima(String dataHoraInicioStr, String dataHoraFimStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            Date inicio = sdf.parse(dataHoraInicioStr);
+            Date fim = sdf.parse(dataHoraFimStr);
+
+            if (inicio != null && fim != null) {
+                long diferencaMilis = fim.getTime() - inicio.getTime();
+                long minutosDiferenca = diferencaMilis / (1000 * 60);
+
+                return minutosDiferenca >= 60;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

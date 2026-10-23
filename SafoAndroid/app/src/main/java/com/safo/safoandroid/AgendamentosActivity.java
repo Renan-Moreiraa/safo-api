@@ -1,6 +1,5 @@
 package com.safo.safoandroid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.safo.safoandroid.model.Agendamento;
 import com.safo.safoandroid.network.RetrofitClient;
 import com.safo.safoandroid.network.SafoApiService;
@@ -66,12 +64,6 @@ public class AgendamentosActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
-
-        FloatingActionButton fab = findViewById(R.id.fabAdicionarAgendamento);
-        fab.setOnClickListener(v -> {
-            Intent intent = new Intent(AgendamentosActivity.this, CadastroAgendamentoActivity.class);
-            startActivity(intent);
         });
     }
 
