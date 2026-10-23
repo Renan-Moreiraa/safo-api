@@ -16,8 +16,11 @@ import com.safo.safoandroid.model.Agendamento;
 import com.safo.safoandroid.network.RetrofitClient;
 import com.safo.safoandroid.network.SafoApiService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,11 +36,17 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
     private List<Agendamento> listaExibida;
     private OnItemClickListener listener;
     private Context context;
+    private boolean ehModoCliente = false;
 
     public AgendamentoAdapter(List<Agendamento> agendamentos, OnItemClickListener listener) {
         this.listaOriginal = new ArrayList<>(agendamentos);
         this.listaExibida = new ArrayList<>(agendamentos);
         this.listener = listener;
+    }
+
+    public void setModoCliente(boolean ehCliente) {
+        this.ehModoCliente = ehCliente;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -56,7 +65,9 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
         if (agendamento.getQuadra() != null) {
             holder.tvQuadraNome.setText("Quadra: " + agendamento.getQuadra().getNome());
         }
-        holder.tvHorario.setText("Início: " + agendamento.getDataHoraInicio());
+
+        // Formatação amigável da data e hora (ex: 22/10/2026 às 22:41)
+        holder.tvHorario.setText("Início: " + formatarDataHora(agendamento.getDataHoraInicio()));
         holder.tvStatus.setText("Status: " + agendamento.getStatus());
 
         if ("CONFIRMADO".equalsIgnoreCase(agendamento.getStatus())) {
@@ -67,11 +78,18 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
             holder.tvStatus.setTextColor(Color.parseColor("#FF9800"));
         }
 
-        // Ações diretas nos botões Aprovar e Recusar
+        // Controle de visibilidade dos botões de ação do Admin
+        if (ehModoCliente || !"PENDENTE".equalsIgnoreCase(agendamento.getStatus())) {
+            holder.btnAprovar.setVisibility(View.GONE);
+            holder.btnRecusar.setVisibility(View.GONE);
+        } else {
+            holder.btnAprovar.setVisibility(View.VISIBLE);
+            holder.btnRecusar.setVisibility(View.VISIBLE);
+        }
+
         holder.btnAprovar.setOnClickListener(v -> atualizarStatusAPI(agendamento, "CONFIRMADO", position));
         holder.btnRecusar.setOnClickListener(v -> atualizarStatusAPI(agendamento, "CANCELADO", position));
 
-        // Clique no card abre as opções extras (ex: deletar)
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(agendamento);
@@ -82,6 +100,21 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
     @Override
     public int getItemCount() {
         return listaExibida != null ? listaExibida.size() : 0;
+    }
+
+    private String formatarDataHora(String dataIso) {
+        if (dataIso == null || dataIso.isEmpty()) return "";
+        try {
+            // Converte de 2026-10-22T22:41:00 para Date
+            SimpleDateFormat formatEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            Date date = formatEntrada.parse(dataIso);
+
+            // Formata para 22/10/2026 às 22:41
+            SimpleDateFormat formatSaida = new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm", Locale.getDefault());
+            return formatSaida.format(date);
+        } catch (Exception e) {
+            return dataIso; // Caso falhe, mantém a string original
+        }
     }
 
     private void atualizarStatusAPI(Agendamento agendamento, String novoStatus, int position) {

@@ -93,13 +93,15 @@ public class AgendamentosActivity extends AppCompatActivity {
                     Log.d(TAG, "Sucesso! Recebidos: " + lista.size() + " agendamentos.");
 
                     adapter = new AgendamentoAdapter(lista, agendamento -> gerenciarAgendamento(agendamento));
-                    recyclerView.setAdapter(adapter);
 
-                    // Se a tela foi aberta por um Cliente, filtra automaticamente as reservas dele
+                    // Verifica se foi aberto por um cliente para ajustar a exibição dos botões e o filtro
                     String clienteFiltro = getIntent().getStringExtra("nomeCliente");
                     if (clienteFiltro != null && !clienteFiltro.isEmpty()) {
+                        adapter.setModoCliente(true);
                         adapter.filtrar(clienteFiltro);
                     }
+
+                    recyclerView.setAdapter(adapter);
                 } else {
                     Log.e(TAG, "Erro HTTP: " + response.code());
                     Toast.makeText(AgendamentosActivity.this, "Erro na API: " + response.code(), Toast.LENGTH_SHORT).show();

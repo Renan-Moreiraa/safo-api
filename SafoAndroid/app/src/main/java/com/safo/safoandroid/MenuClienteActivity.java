@@ -11,43 +11,39 @@ import com.google.android.material.card.MaterialCardView;
 
 public class MenuClienteActivity extends AppCompatActivity {
 
-    private MaterialCardView cardVerQuadras, cardMinhasReservas;
-    private Button btnSair;
-    private TextView textBoasVindas;
+    private String nomeCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_cliente);
 
-        // Recebe o nome do cliente enviado pela LoginActivity
-        String nomeCliente = getIntent().getStringExtra("nomeCliente");
+        TextView tvBoasVindas = findViewById(R.id.tvBoasVindasCliente);
+        MaterialCardView cardNovoAgendamento = findViewById(R.id.cardNovoAgendamento);
+        MaterialCardView cardMeusAgendamentos = findViewById(R.id.cardMeusAgendamentos);
+        Button btnSair = findViewById(R.id.btnSairCliente);
 
-        textBoasVindas = findViewById(R.id.textBoasVindasCliente);
+        // Recebe o nome do cliente vindo da LoginActivity
+        nomeCliente = getIntent().getStringExtra("nomeCliente");
         if (nomeCliente != null && !nomeCliente.isEmpty()) {
-            textBoasVindas.setText("Olá, " + nomeCliente + "!");
+            tvBoasVindas.setText("Bem-vindo(a), " + nomeCliente + "!");
         }
 
-        cardVerQuadras = findViewById(R.id.cardVerQuadras);
-        cardMinhasReservas = findViewById(R.id.cardMinhasReservas);
-        btnSair = findViewById(R.id.btnSairCliente);
-
-        // Abrir tela de novo agendamento com os dados do cliente
-        cardVerQuadras.setOnClickListener(v -> {
+        // Abre a tela para criar um novo agendamento
+        cardNovoAgendamento.setOnClickListener(v -> {
             Intent intent = new Intent(MenuClienteActivity.this, CadastroAgendamentoActivity.class);
             intent.putExtra("nomeCliente", nomeCliente);
-            intent.putExtra("perfilUsuario", "CLIENTE");
             startActivity(intent);
         });
 
-        // Abrir tela de agendamentos filtrando apenas as reservas do cliente
-        cardMinhasReservas.setOnClickListener(v -> {
+        // Abre a AgendamentosActivity filtrando APENAS as reservas deste cliente
+        cardMeusAgendamentos.setOnClickListener(v -> {
             Intent intent = new Intent(MenuClienteActivity.this, AgendamentosActivity.class);
             intent.putExtra("nomeCliente", nomeCliente);
             startActivity(intent);
         });
 
-        // Botão de Sair (Logout)
+        // Sair da conta
         btnSair.setOnClickListener(v -> {
             Intent intent = new Intent(MenuClienteActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
