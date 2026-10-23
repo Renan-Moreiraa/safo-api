@@ -34,10 +34,10 @@ public class Atendimento {
     @JoinColumn(name = "id_colaborador", nullable = false)
     private Colaborador colaborador;
 
-    @NotNull(message = "A reserva é obrigatória.")
+    @NotNull(message = "O agendamento é obrigatório.")
     @ManyToOne
-    @JoinColumn(name = "id_reserva", nullable = false)
-    private Reserva reserva;
+    @JoinColumn(name = "id_agendamento", nullable = false)
+    private Agendamento agendamento;
 
     public Atendimento() {}
 
@@ -56,6 +56,6 @@ public class Atendimento {
     public Colaborador getColaborador() { return colaborador; }
     public void setColaborador(Colaborador colaborador) { this.colaborador = colaborador; }
 
-    public Reserva getReserva() { return reserva; }
-    public void setReserva(Reserva reserva) { this.reserva = reserva; }
+    public Agendamento getAgendamento() { return agendamento; }
+    public void setAgendamento(Agendamento agendamento) { this.agendamento = agendamento; }
 }

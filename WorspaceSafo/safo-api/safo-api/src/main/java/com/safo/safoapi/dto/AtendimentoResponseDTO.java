@@ -11,7 +11,7 @@ public class AtendimentoResponseDTO {
     private String justificativaCancelamento;
     private Long idColaborador;
     private String nomeColaborador;
-    private Long idReserva;
+    private Long idAgendamento;
 
     public AtendimentoResponseDTO() {}
 
@@ -20,12 +20,14 @@ public class AtendimentoResponseDTO {
         this.data = atendimento.getData();
         this.status = atendimento.getStatus();
         this.justificativaCancelamento = atendimento.getJustificativaCancelamento();
+
         if (atendimento.getColaborador() != null) {
             this.idColaborador = atendimento.getColaborador().getIdColaborador();
             this.nomeColaborador = atendimento.getColaborador().getNome();
         }
-        if (atendimento.getReserva() != null) {
-            this.idReserva = atendimento.getReserva().getIdReserva();
+
+        if (atendimento.getAgendamento() != null) {
+            this.idAgendamento = atendimento.getAgendamento().getIdAgendamento();
         }
     }
 
@@ -35,5 +37,5 @@ public class AtendimentoResponseDTO {
     public String getJustificativaCancelamento() { return justificativaCancelamento; }
     public Long getIdColaborador() { return idColaborador; }
     public String getNomeColaborador() { return nomeColaborador; }
-    public Long getIdReserva() { return idReserva; }
+    public Long getIdAgendamento() { return idAgendamento; }
 }

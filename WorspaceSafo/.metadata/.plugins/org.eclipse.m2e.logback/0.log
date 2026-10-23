@@ -3381,3 +3381,44 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact org.webjars:s
 2026-10-22 22:39:26,150 [Worker-133: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2026-10-22 22:39:26,201 [Worker-133: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2026-10-22 22:39:26,205 [Worker-133: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 08:55:17,836 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2026-10-23 09:37:27,184 [Worker-38: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 09:37:27,231 [Worker-38: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 09:37:27,238 [Worker-38: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 09:40:41,895 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 09:40:41,899 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 09:40:41,909 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 09:40:48,051 [Worker-42: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 09:40:48,053 [Worker-42: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 09:40:48,064 [Worker-42: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:17:27,453 [Worker-60: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:17:27,782 [Worker-60: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:17:27,805 [Worker-60: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:17:29,281 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:17:29,350 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:17:29,354 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:17:52,499 [Worker-56: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:17:52,555 [Worker-56: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:17:52,562 [Worker-56: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:19:05,188 [Worker-59: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:19:05,206 [Worker-59: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:19:05,210 [Worker-59: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:21:12,915 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:21:12,961 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:21:12,967 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:21:31,776 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:21:31,790 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:21:31,793 [Worker-61: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:23:04,336 [Worker-58: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:23:04,350 [Worker-58: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:23:04,354 [Worker-58: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:23:28,024 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:23:28,034 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:23:28,037 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:23:33,308 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:23:33,323 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:23:33,327 [Worker-63: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:44:08,988 [Worker-64: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-10-23 10:44:09,348 [Worker-64: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2026-10-23 10:44:09,355 [Worker-64: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo\safo-api\safo-api\src\test\resources
+2026-10-23 10:55:11,093 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.

@@ -21,29 +21,31 @@ public class MenuClienteActivity extends AppCompatActivity {
         TextView tvBoasVindas = findViewById(R.id.tvBoasVindasCliente);
         MaterialCardView cardNovoAgendamento = findViewById(R.id.cardNovoAgendamento);
         MaterialCardView cardMeusAgendamentos = findViewById(R.id.cardMeusAgendamentos);
+        MaterialCardView cardAtendimentoCliente = findViewById(R.id.cardAtendimentoCliente);
         Button btnSair = findViewById(R.id.btnSairCliente);
 
-        // Recebe o nome do cliente vindo da LoginActivity
         nomeCliente = getIntent().getStringExtra("nomeCliente");
         if (nomeCliente != null && !nomeCliente.isEmpty()) {
             tvBoasVindas.setText("Bem-vindo(a), " + nomeCliente + "!");
         }
 
-        // Abre a tela para criar um novo agendamento
         cardNovoAgendamento.setOnClickListener(v -> {
             Intent intent = new Intent(MenuClienteActivity.this, CadastroAgendamentoActivity.class);
             intent.putExtra("nomeCliente", nomeCliente);
             startActivity(intent);
         });
 
-        // Abre a AgendamentosActivity filtrando APENAS as reservas deste cliente
         cardMeusAgendamentos.setOnClickListener(v -> {
             Intent intent = new Intent(MenuClienteActivity.this, AgendamentosActivity.class);
             intent.putExtra("nomeCliente", nomeCliente);
             startActivity(intent);
         });
 
-        // Sair da conta
+        cardAtendimentoCliente.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuClienteActivity.this, AtendimentosActivity.class);
+            startActivity(intent);
+        });
+
         btnSair.setOnClickListener(v -> {
             Intent intent = new Intent(MenuClienteActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -26,12 +26,12 @@
             android:id="@+id/tvBoasVindasCliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="24dp"
             android:text="Área do Cliente"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 
-        <!-- Botão: Novo Agendamento -->
+        <!-- Botão: Reservar Quadra -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardNovoAgendamento"
             android:layout_width="match_parent"
@@ -70,7 +70,7 @@
             android:id="@+id/cardMeusAgendamentos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="12dp"
@@ -94,7 +94,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Consulte o estado das suas reservas e cancelamentos"
+                    android:text="Consulte o estado das suas reservas"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botão: Suporte / Atendimento -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAtendimentoCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎧 Suporte e Atendimento"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Consulte seus chamados de suporte"
                     android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

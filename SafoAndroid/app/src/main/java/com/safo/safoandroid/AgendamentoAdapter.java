@@ -62,8 +62,16 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
         Agendamento agendamento = listaExibida.get(position);
 
         holder.tvClienteNome.setText("Cliente: " + agendamento.getNomeCliente());
+
+        // Exibe o nome da quadra juntamente com o preço por hora
         if (agendamento.getQuadra() != null) {
-            holder.tvQuadraNome.setText("Quadra: " + agendamento.getQuadra().getNome());
+            String textoQuadra = "Quadra: " + agendamento.getQuadra().getNome();
+            if (agendamento.getQuadra().getPrecoHora() != null) {
+                textoQuadra += " (R$ " + agendamento.getQuadra().getPrecoHora() + "/h)";
+            }
+            holder.tvQuadraNome.setText(textoQuadra);
+        } else {
+            holder.tvQuadraNome.setText("Quadra: Não especificada");
         }
 
         // Formatação amigável da data e hora (ex: 22/10/2026 às 22:41)
@@ -105,15 +113,13 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
     private String formatarDataHora(String dataIso) {
         if (dataIso == null || dataIso.isEmpty()) return "";
         try {
-            // Converte de 2026-10-22T22:41:00 para Date
             SimpleDateFormat formatEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
             Date date = formatEntrada.parse(dataIso);
 
-            // Formata para 22/10/2026 às 22:41
             SimpleDateFormat formatSaida = new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm", Locale.getDefault());
             return formatSaida.format(date);
         } catch (Exception e) {
-            return dataIso; // Caso falhe, mantém a string original
+            return dataIso;
         }
     }
 

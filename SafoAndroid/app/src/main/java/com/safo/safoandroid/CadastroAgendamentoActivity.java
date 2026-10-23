@@ -101,15 +101,21 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
             public void onResponse(Call<List<Quadra>> call, Response<List<Quadra>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     listaQuadras = response.body();
-                    List<String> nomesQuadras = new ArrayList<>();
+                    List<String> exibicaoQuadras = new ArrayList<>();
+
+                    // Formata a exibição incluindo o preço por hora da quadra
                     for (Quadra q : listaQuadras) {
-                        nomesQuadras.add(q.getNome());
+                        if (q.getPrecoHora() != null) {
+                            exibicaoQuadras.add(q.getNome() + " - R$ " + q.getPrecoHora() + "/h");
+                        } else {
+                            exibicaoQuadras.add(q.getNome());
+                        }
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
                             CadastroAgendamentoActivity.this,
                             android.R.layout.simple_spinner_item,
-                            nomesQuadras
+                            exibicaoQuadras
                     );
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerQuadras.setAdapter(adapter);

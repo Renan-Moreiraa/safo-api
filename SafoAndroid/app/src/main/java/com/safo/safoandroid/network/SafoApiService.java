@@ -1,6 +1,8 @@
 package com.safo.safoandroid.network;
 
 import com.safo.safoandroid.model.Agendamento;
+import com.safo.safoandroid.model.Atendimento;
+import com.safo.safoandroid.model.AtendimentoRequestDTO;
 import com.safo.safoandroid.model.Colaborador;
 import com.safo.safoandroid.model.Quadra;
 import com.safo.safoandroid.model.Usuario;
@@ -50,6 +52,9 @@ public interface SafoApiService {
     @POST("agendamentos")
     Call<Agendamento> salvarAgendamento(@Body Agendamento agendamento);
 
+    @PUT("agendamentos/{id}")
+    Call<Agendamento> atualizarAgendamento(@Path("id") Long id, @Body Agendamento agendamento);
+
     @DELETE("agendamentos/{id}")
     Call<Void> deletarAgendamento(@Path("id") Long id);
 
@@ -60,6 +65,13 @@ public interface SafoApiService {
     @POST("auth/register")
     Call<Usuario> cadastrar(@Body Usuario usuario);
 
-    @PUT("agendamentos/{id}")
-    Call<Agendamento> atualizarAgendamento(@Path("id") Long id, @Body Agendamento agendamento);
+    // --- ATENDIMENTOS ---
+    @GET("atendimentos")
+    Call<List<Atendimento>> getAtendimentos();
+
+    @POST("atendimentos")
+    Call<Atendimento> criarAtendimento(@Body AtendimentoRequestDTO dto);
+
+    @PUT("atendimentos/{id}")
+    Call<Atendimento> atualizarAtendimento(@Path("id") Long id, @Body AtendimentoRequestDTO dto);
 }

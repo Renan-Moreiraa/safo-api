@@ -20,8 +20,8 @@ public class AtendimentoRequestDTO {
     @NotNull(message = "O ID do colaborador é obrigatório.")
     private Long idColaborador;
 
-    @NotNull(message = "O ID da reserva é obrigatório.")
-    private Long idReserva;
+    @NotNull(message = "O ID do agendamento é obrigatório.")
+    private Long idAgendamento;
 
     public AtendimentoRequestDTO() {}
 
@@ -37,6 +37,6 @@ public class AtendimentoRequestDTO {
     public Long getIdColaborador() { return idColaborador; }
     public void setIdColaborador(Long idColaborador) { this.idColaborador = idColaborador; }
 
-    public Long getIdReserva() { return idReserva; }
-    public void setIdReserva(Long idReserva) { this.idReserva = idReserva; }
+    public Long getIdAgendamento() { return idAgendamento; }
+    public void setIdAgendamento(Long idAgendamento) { this.idAgendamento = idAgendamento; }
 }

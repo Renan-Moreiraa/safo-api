@@ -2,12 +2,12 @@ package com.safo.safoapi.service;
 
 import com.safo.safoapi.dto.AtendimentoRequestDTO;
 import com.safo.safoapi.dto.AtendimentoResponseDTO;
+import com.safo.safoapi.model.Agendamento;
 import com.safo.safoapi.model.Atendimento;
 import com.safo.safoapi.model.Colaborador;
-import com.safo.safoapi.model.Reserva;
+import com.safo.safoapi.repository.AgendamentoRepository;
 import com.safo.safoapi.repository.AtendimentoRepository;
 import com.safo.safoapi.repository.ColaboradorRepository;
-import com.safo.safoapi.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class AtendimentoService {
     private ColaboradorRepository colaboradorRepository;
 
     @Autowired
-    private ReservaRepository reservaRepository;
+    private AgendamentoRepository agendamentoRepository;
 
     public List<AtendimentoResponseDTO> listarTodos() {
         return atendimentoRepository.findAll()
@@ -43,17 +43,37 @@ public class AtendimentoService {
         Colaborador colaborador = colaboradorRepository.findById(dto.getIdColaborador())
                 .orElseThrow(() -> new IllegalArgumentException("Colaborador não encontrado com o ID fornecido."));
 
-        Reserva reserva = reservaRepository.findById(dto.getIdReserva())
-                .orElseThrow(() -> new IllegalArgumentException("Reserva não encontrada com o ID fornecido."));
+        Agendamento agendamento = agendamentoRepository.findById(dto.getIdAgendamento())
+                .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado com o ID fornecido."));
 
         Atendimento atendimento = new Atendimento();
         atendimento.setData(dto.getData());
         atendimento.setStatus(dto.getStatus());
         atendimento.setJustificativaCancelamento(dto.getJustificativaCancelamento());
         atendimento.setColaborador(colaborador);
-        atendimento.setReserva(reserva);
+        atendimento.setAgendamento(agendamento);
 
         Atendimento salvo = atendimentoRepository.save(atendimento);
         return new AtendimentoResponseDTO(salvo);
+    }
+
+    public AtendimentoResponseDTO atualizar(Long id, AtendimentoRequestDTO dto) {
+        Atendimento atendimento = atendimentoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Atendimento não encontrado com o ID: " + id));
+
+        Colaborador colaborador = colaboradorRepository.findById(dto.getIdColaborador())
+                .orElseThrow(() -> new IllegalArgumentException("Colaborador não encontrado com o ID fornecido."));
+
+        Agendamento agendamento = agendamentoRepository.findById(dto.getIdAgendamento())
+                .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado com o ID fornecido."));
+
+        atendimento.setData(dto.getData());
+        atendimento.setStatus(dto.getStatus());
+        atendimento.setJustificativaCancelamento(dto.getJustificativaCancelamento());
+        atendimento.setColaborador(colaborador);
+        atendimento.setAgendamento(agendamento);
+
+        Atendimento atualizado = atendimentoRepository.save(atendimento);
+        return new AtendimentoResponseDTO(atualizado);
     }
 }

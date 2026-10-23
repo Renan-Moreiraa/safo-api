@@ -32,7 +32,13 @@ public class AtendimentoController {
 
     @PostMapping
     public ResponseEntity<AtendimentoResponseDTO> criar(@Valid @RequestBody AtendimentoRequestDTO dto) {
-        AtendimentoResponseDTO criado = atendimentoService.criar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+        AtendimentoResponseDTO novoAtendimento = atendimentoService.criar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoAtendimento);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AtendimentoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody AtendimentoRequestDTO dto) {
+        AtendimentoResponseDTO atendimentoAtualizado = atendimentoService.atualizar(id, dto);
+        return ResponseEntity.ok(atendimentoAtualizado);
     }
 }

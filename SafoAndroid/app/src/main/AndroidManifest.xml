@@ -64,6 +64,10 @@
             android:name=".MenuClienteActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".AtendimentosActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
