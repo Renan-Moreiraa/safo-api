@@ -15,7 +15,7 @@ import java.util.List;
 public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.AgendamentoViewHolder> {
 
     public interface OnAgendamentoClickListener {
-        void OnAgendamentoLongClick(Agendamento agendamento);
+        void onAgendamentoClick(Agendamento agendamento);
     }
 
     private List<Agendamento> agendamentos;
@@ -63,8 +63,12 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
         holder.textHorario.setText("Início: " + ag.getDataHoraInicio() + " | Fim: " + ag.getDataHoraFim());
         holder.textStatusAgendamento.setText("Status: " + ag.getStatus());
 
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onAgendamentoClick(ag);
+        });
+
         holder.itemView.setOnLongClickListener(v -> {
-            if (listener != null) listener.OnAgendamentoLongClick(ag);
+            if (listener != null) listener.onAgendamentoClick(ag);
             return true;
         });
     }

@@ -92,7 +92,7 @@ public class AgendamentosActivity extends AppCompatActivity {
                     List<Agendamento> lista = response.body();
                     Log.d(TAG, "Sucesso! Recebidos: " + lista.size() + " agendamentos.");
 
-                    adapter = new AgendamentoAdapter(lista, agendamento -> confirmarExclusao(agendamento));
+                    adapter = new AgendamentoAdapter(lista, agendamento -> gerenciarAgendamento(agendamento));
                     recyclerView.setAdapter(adapter);
 
                     // Se a tela foi aberta por um Cliente, filtra automaticamente as reservas dele
@@ -115,10 +115,58 @@ public class AgendamentosActivity extends AppCompatActivity {
         });
     }
 
+    private void gerenciarAgendamento(Agendamento agendamento) {
+        String clienteFiltro = getIntent().getStringExtra("nomeCliente");
+
+        // Se for acesso do Cliente, ele só pode solicitar exclusão/cancelamento
+        if (clienteFiltro != null && !clienteFiltro.isEmpty()) {
+            confirmarExclusao(agendamento);
+            return;
+        }
+
+        // Visão do Administrador: Gerenciar Status e Eliminar
+        String[] opcoes = {"Aprovar Reserva (CONFIRMADO)", "Recusar Reserva (CANCELADO)", "Eliminar Agendamento"};
+
+        new AlertDialog.Builder(this)
+                .setTitle("Gerir Reserva de " + agendamento.getNomeCliente())
+                .setItems(opcoes, (dialog, which) -> {
+                    if (which == 0) {
+                        atualizarStatusAPI(agendamento, "CONFIRMADO");
+                    } else if (which == 1) {
+                        atualizarStatusAPI(agendamento, "CANCELADO");
+                    } else if (which == 2) {
+                        confirmarExclusao(agendamento);
+                    }
+                })
+                .show();
+    }
+
+    private void atualizarStatusAPI(Agendamento agendamento, String novoStatus) {
+        agendamento.setStatus(novoStatus);
+        SafoApiService apiService = RetrofitClient.getClient().create(SafoApiService.class);
+
+        apiService.atualizarAgendamento(agendamento.getIdAgendamento(), agendamento).enqueue(new Callback<Agendamento>() {
+            @Override
+            public void onResponse(Call<Agendamento> call, Response<Agendamento> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(AgendamentosActivity.this, "Status atualizado para " + novoStatus, Toast.LENGTH_SHORT).show();
+                    buscarAgendamentos();
+                } else {
+                    Toast.makeText(AgendamentosActivity.this, "Erro ao atualizar status: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Agendamento> call, Throwable t) {
+                Toast.makeText(AgendamentosActivity.this, "Falha de conexão ao atualizar", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void confirmarExclusao(Agendamento agendamento) {
         new AlertDialog.Builder(this)
-                .setTitle("Cancelar Agendamento")
-                .setMessage("Deseja realmente cancelar o agendamento de " + agendamento.getNomeCliente() + "?")
+                .setTitle("Remover Agendamento")
+                .setMessage("Deseja realmente remover o agendamento de " + agendamento.getNomeCliente() + "?")
                 .setPositiveButton("Sim", (dialog, which) -> {
                     deletarAgendamentoAPI(agendamento.getIdAgendamento());
                 })

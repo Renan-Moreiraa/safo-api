@@ -59,4 +59,7 @@ public interface SafoApiService {
 
     @POST("auth/register")
     Call<Usuario> cadastrar(@Body Usuario usuario);
+
+    @PUT("api/agendamentos/{id}")
+    Call<Agendamento> atualizarAgendamento(@Path("id") Long id, @Body Agendamento agendamento);
 }

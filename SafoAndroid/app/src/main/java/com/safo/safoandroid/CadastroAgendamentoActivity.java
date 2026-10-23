@@ -45,28 +45,29 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
         editStatus = findViewById(R.id.editStatusAgendamento);
         btnSalvar = findViewById(R.id.btnSalvarAgendamento);
 
-        // Recebe os dados do usuário
+        // Recebe os dados passados pela Intent
         String nomeCliente = getIntent().getStringExtra("nomeCliente");
         if (getIntent().hasExtra("perfilUsuario")) {
             perfilUsuario = getIntent().getStringExtra("perfilUsuario");
         }
 
-        // Se houver nome de cliente passado, preenche e desabilita edição
+        // Auto-preenche e bloqueia o nome do cliente se estiver presente
         if (nomeCliente != null && !nomeCliente.isEmpty()) {
             editNomeCliente.setText(nomeCliente);
             editNomeCliente.setEnabled(false);
         }
 
-        // Se for Cliente, fixa o status como PENDENTE e desabilita alteração
+        // Se for perfil de cliente, fixa o status como PENDENTE e bloqueia
         if ("CLIENTE".equalsIgnoreCase(perfilUsuario) || (nomeCliente != null && !nomeCliente.isEmpty())) {
             editStatus.setText("PENDENTE");
             editStatus.setEnabled(false);
         }
 
-        // Configura seletores de data/hora ao clicar nos campos
+        // Seletores virtuais de data e hora
         editDataHoraInicio.setOnClickListener(v -> abrirSeletorDataHora(editDataHoraInicio));
         editDataHoraFim.setOnClickListener(v -> abrirSeletorDataHora(editDataHoraFim));
 
+        // Carrega as quadras cadastradas no servidor
         carregarQuadras();
 
         btnSalvar.setOnClickListener(v -> salvarAgendamento());
@@ -98,22 +99,28 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
         apiService.getQuadras().enqueue(new Callback<List<Quadra>>() {
             @Override
             public void onResponse(Call<List<Quadra>> call, Response<List<Quadra>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     listaQuadras = response.body();
                     List<String> nomesQuadras = new ArrayList<>();
                     for (Quadra q : listaQuadras) {
                         nomesQuadras.add(q.getNome());
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(CadastroAgendamentoActivity.this,
-                            android.R.layout.simple_spinner_item, nomesQuadras);
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            CadastroAgendamentoActivity.this,
+                            android.R.layout.simple_spinner_item,
+                            nomesQuadras
+                    );
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerQuadras.setAdapter(adapter);
+                } else {
+                    Toast.makeText(CadastroAgendamentoActivity.this, "Nenhuma quadra encontrada no banco de dados!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Quadra>> call, Throwable t) {
-                Toast.makeText(CadastroAgendamentoActivity.this, "Erro ao carregar quadras", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CadastroAgendamentoActivity.this, "Erro de conexão ao buscar quadras", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -135,6 +142,12 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
             return;
         }
 
+        // Validação de horário: início deve ser anterior ao fim
+        if (inicio.compareTo(fim) >= 0) {
+            Toast.makeText(this, "O horário de fim deve ser posterior ao horário de início!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Agendamento ag = new Agendamento();
         ag.setQuadra(quadraSelecionada);
         ag.setNomeCliente(nomeCliente);
@@ -149,6 +162,8 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(CadastroAgendamentoActivity.this, "Solicitação de reserva enviada!", Toast.LENGTH_SHORT).show();
                     finish();
+                } else if (response.code() == 409 || response.code() == 400) {
+                    Toast.makeText(CadastroAgendamentoActivity.this, "Horário indisponível para esta quadra!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(CadastroAgendamentoActivity.this, "Erro ao solicitar reserva", Toast.LENGTH_SHORT).show();
                 }
