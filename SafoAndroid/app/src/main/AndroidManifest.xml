@@ -43,6 +43,14 @@
             android:name=".CadastroQuadraActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".AgendamentosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".CadastroAgendamentoActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

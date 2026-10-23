@@ -31,7 +31,8 @@ public class MenuActivity extends AppCompatActivity {
 
         // Módulo de Agendamentos (em breve)
         cardAgendamentos.setOnClickListener(v -> {
-            Toast.makeText(MenuActivity.this, "Módulo de Agendamentos em desenvolvimento!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MenuActivity.this, AgendamentosActivity.class);
+            startActivity(intent);
         });
     }
 }

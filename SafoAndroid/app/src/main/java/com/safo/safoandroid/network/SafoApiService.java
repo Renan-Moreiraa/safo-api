@@ -1,8 +1,11 @@
 package com.safo.safoandroid.network;
 
+import com.safo.safoandroid.model.Agendamento;
 import com.safo.safoandroid.model.Colaborador;
 import com.safo.safoandroid.model.Quadra;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -13,6 +16,7 @@ import retrofit2.http.Path;
 
 public interface SafoApiService {
 
+    // --- COLABORADORES ---
     @GET("colaboradores")
     Call<List<Colaborador>> getColaboradores();
 
@@ -25,6 +29,7 @@ public interface SafoApiService {
     @DELETE("colaboradores/{id}")
     Call<Void> deletarColaborador(@Path("id") Long id);
 
+    // --- QUADRAS ---
     @GET("quadras")
     Call<List<Quadra>> getQuadras();
 
@@ -36,4 +41,14 @@ public interface SafoApiService {
 
     @DELETE("quadras/{id}")
     Call<Void> deletarQuadra(@Path("id") Long id);
+
+    // --- AGENDAMENTOS ---
+    @GET("agendamentos")
+    Call<List<Agendamento>> getAgendamentos();
+
+    @POST("agendamentos")
+    Call<Agendamento> salvarAgendamento(@Body Agendamento agendamento);
+
+    @DELETE("agendamentos/{id}")
+    Call<Void> deletarAgendamento(@Path("id") Long id);
 }
