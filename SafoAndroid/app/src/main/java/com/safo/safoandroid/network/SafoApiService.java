@@ -55,7 +55,7 @@ public interface SafoApiService {
 
     // --- AUTENTICAÇÃO ---
     @POST("auth/login")
-    Call<Usuario> login(@Body LoginDTO loginDTO);
+    Call<Usuario> login(@Body Usuario usuario);
 
     @POST("auth/register")
     Call<Usuario> cadastrar(@Body Usuario usuario);

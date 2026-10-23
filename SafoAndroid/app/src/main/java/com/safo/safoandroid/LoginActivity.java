@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.safo.safoandroid.model.Usuario;
-import com.safo.safoandroid.network.LoginDTO;
 import com.safo.safoandroid.network.RetrofitClient;
 import com.safo.safoandroid.network.SafoApiService;
 
@@ -20,7 +19,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editEmail, editSenha;
-    private Button btnLogin;
+    private Button btnLogin, btnIrParaCadastro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +29,10 @@ public class LoginActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmailLogin);
         editSenha = findViewById(R.id.editSenhaLogin);
         btnLogin = findViewById(R.id.btnLogin);
+        btnIrParaCadastro = findViewById(R.id.btnIrParaCadastro);
 
         btnLogin.setOnClickListener(v -> realizarLogin());
 
-        Button btnIrParaCadastro = findViewById(R.id.btnIrParaCadastro);
         btnIrParaCadastro.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, CadastroUsuarioActivity.class);
             startActivity(intent);
@@ -45,19 +44,22 @@ public class LoginActivity extends AppCompatActivity {
         String senha = editSenha.getText().toString().trim();
 
         if (email.isEmpty() || senha.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        LoginDTO loginDTO = new LoginDTO(email, senha);
         SafoApiService apiService = RetrofitClient.getClient().create(SafoApiService.class);
 
-        apiService.login(loginDTO).enqueue(new Callback<Usuario>() {
+        Usuario requestUsuario = new Usuario();
+        requestUsuario.setEmail(email);
+        requestUsuario.setSenha(senha);
+
+        apiService.login(requestUsuario).enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Usuario usuario = response.body();
-                    Toast.makeText(LoginActivity.this, "Bem-vindo, " + usuario.getNome() + "!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
                     if ("ADMIN".equalsIgnoreCase(usuario.getPerfil())) {
                         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
@@ -65,17 +67,18 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     } else {
                         Intent intent = new Intent(LoginActivity.this, MenuClienteActivity.class);
+                        intent.putExtra("nomeCliente", usuario.getNome());
                         startActivity(intent);
                         finish();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "E-mail ou senha incorretos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Credenciais inválidas!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Falha de conexão com o servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Erro de conexão com o servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }

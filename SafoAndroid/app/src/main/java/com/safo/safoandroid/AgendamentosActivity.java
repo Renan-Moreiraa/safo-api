@@ -94,6 +94,12 @@ public class AgendamentosActivity extends AppCompatActivity {
 
                     adapter = new AgendamentoAdapter(lista, agendamento -> confirmarExclusao(agendamento));
                     recyclerView.setAdapter(adapter);
+
+                    // Se a tela foi aberta por um Cliente, filtra automaticamente as reservas dele
+                    String clienteFiltro = getIntent().getStringExtra("nomeCliente");
+                    if (clienteFiltro != null && !clienteFiltro.isEmpty()) {
+                        adapter.filtrar(clienteFiltro);
+                    }
                 } else {
                     Log.e(TAG, "Erro HTTP: " + response.code());
                     Toast.makeText(AgendamentosActivity.this, "Erro na API: " + response.code(), Toast.LENGTH_SHORT).show();
