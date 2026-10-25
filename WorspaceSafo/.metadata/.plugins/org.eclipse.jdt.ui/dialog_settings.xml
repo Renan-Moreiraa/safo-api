@@ -56,14 +56,16 @@
 		<item key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION" value="safo-api\target\safo-api.jar"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
 			<item value="safo-api/target/safo-api.jar"/>
+			<item value="safo-api\target\safo-api.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value="C:\Users\renan\OneDrive\Desktop\Safo\WorspaceSafo.xml"/>
 			<item value=".xml"/>
 		</list>
 		<section name="FatJarPackageWizard.dialogBounds">
-			<item key="DIALOG_X_ORIGIN" value="513"/>
+			<item key="DIALOG_X_ORIGIN" value="488"/>
 			<item key="DIALOG_Y_ORIGIN" value="79"/>
-			<item key="DIALOG_WIDTH" value="525"/>
+			<item key="DIALOG_WIDTH" value="574"/>
 			<item key="DIALOG_HEIGHT" value="550"/>
 			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 		</section>
