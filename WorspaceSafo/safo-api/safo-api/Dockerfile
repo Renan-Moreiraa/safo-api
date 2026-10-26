@@ -5,6 +5,7 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/safo-api.jar app.jar
+# O asterisco (*) faz com que apanhe qualquer ficheiro .jar gerado na pasta target
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
