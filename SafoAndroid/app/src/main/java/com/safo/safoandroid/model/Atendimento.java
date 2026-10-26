@@ -22,6 +22,12 @@ public class Atendimento {
     @SerializedName("agendamento")
     private Agendamento agendamento;
 
+    @SerializedName("resposta")
+    private String resposta;
+
+    public String getResposta() { return resposta; }
+    public void setResposta(String resposta) { this.resposta = resposta; }
+
     public Atendimento() {}
 
     public Long getIdAtendimento() { return idAtendimento; }

@@ -62,6 +62,13 @@ public class AtendimentoAdapter extends RecyclerView.Adapter<AtendimentoAdapter.
             holder.tvStatus.setTextColor(Color.parseColor("#FF9800"));
         }
 
+        // Lógica da caixinha (RESPONDIDA)
+        if (a.getResposta() != null && !a.getResposta().trim().isEmpty()) {
+            holder.tvRespondida.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvRespondida.setVisibility(View.GONE);
+        }
+
         // Clique no item para abrir a janela de resposta
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -76,7 +83,7 @@ public class AtendimentoAdapter extends RecyclerView.Adapter<AtendimentoAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvReserva, tvColaborador, tvData, tvStatus;
+        TextView tvReserva, tvColaborador, tvData, tvStatus, tvRespondida;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +91,7 @@ public class AtendimentoAdapter extends RecyclerView.Adapter<AtendimentoAdapter.
             tvColaborador = itemView.findViewById(R.id.tvAtendimentoColaborador);
             tvData = itemView.findViewById(R.id.tvAtendimentoData);
             tvStatus = itemView.findViewById(R.id.tvAtendimentoStatus);
+            tvRespondida = itemView.findViewById(R.id.tagRespondida); // Mapeamento da caixinha
         }
     }
 }

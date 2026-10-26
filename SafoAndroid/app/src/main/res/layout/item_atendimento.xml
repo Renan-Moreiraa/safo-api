@@ -48,5 +48,17 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/tagRespondida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(RESPONDIDA)"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:padding="6dp"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

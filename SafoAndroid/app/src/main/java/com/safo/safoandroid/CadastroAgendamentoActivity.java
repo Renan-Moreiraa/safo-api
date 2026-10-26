@@ -36,6 +36,10 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
     private List<Quadra> listaQuadras = new ArrayList<>();
     private String perfilUsuario = "CLIENTE";
 
+    // Variáveis ocultas para guardar o formato exato da API
+    private String dataInicioAPI = "";
+    private String dataFimAPI = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,29 +52,24 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
         editStatus = findViewById(R.id.editStatusAgendamento);
         btnSalvar = findViewById(R.id.btnSalvarAgendamento);
 
-        // Recebe os dados passados pela Intent
         String nomeCliente = getIntent().getStringExtra("nomeCliente");
         if (getIntent().hasExtra("perfilUsuario")) {
             perfilUsuario = getIntent().getStringExtra("perfilUsuario");
         }
 
-        // Auto-preenche e bloqueia o nome do cliente se estiver presente
         if (nomeCliente != null && !nomeCliente.isEmpty()) {
             editNomeCliente.setText(nomeCliente);
             editNomeCliente.setEnabled(false);
         }
 
-        // Se for perfil de cliente, fixa o status como PENDENTE e bloqueia
         if ("CLIENTE".equalsIgnoreCase(perfilUsuario) || (nomeCliente != null && !nomeCliente.isEmpty())) {
             editStatus.setText("PENDENTE");
             editStatus.setEnabled(false);
         }
 
-        // Seletores virtuais de data e hora
         editDataHoraInicio.setOnClickListener(v -> abrirSeletorDataHora(editDataHoraInicio));
         editDataHoraFim.setOnClickListener(v -> abrirSeletorDataHora(editDataHoraFim));
 
-        // Carrega as quadras cadastradas no servidor
         carregarQuadras();
 
         btnSalvar.setOnClickListener(v -> salvarAgendamento());
@@ -79,10 +78,10 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
     private void abrirSeletorDataHora(EditText campoTarget) {
         Calendar c = Calendar.getInstance();
 
-        if (campoTarget == editDataHoraFim && !editDataHoraInicio.getText().toString().isEmpty()) {
+        if (campoTarget == editDataHoraFim && !dataInicioAPI.isEmpty()) {
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
-                Date inicioDate = sdf.parse(editDataHoraInicio.getText().toString());
+                Date inicioDate = sdf.parse(dataInicioAPI);
                 if (inicioDate != null) {
                     c.setTime(inicioDate);
                     c.add(Calendar.HOUR_OF_DAY, 1);
@@ -106,17 +105,32 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
                     horaAjustada = (hourOfDay + 1) % 24;
                 }
 
-                // Criamos variáveis locais mutáveis para armazenar o resultado final
                 int anoFinal = year;
                 int mesFinal = month;
                 int diaFinal = dayOfMonth;
                 int horaFinal = horaAjustada;
                 int minutoFinal = minutoAjustado;
 
-                if (campoTarget == editDataHoraFim && !editDataHoraInicio.getText().toString().isEmpty()) {
+                // 1. Validação do Horário de Funcionamento (08:00 às 23:00)
+                if (horaFinal < 8 || horaFinal >= 23) {
+                    Toast.makeText(CadastroAgendamentoActivity.this, "A quadra só funciona das 08:00 às 23:00!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // 2. Validação de Horário Passado (no dia de hoje)
+                Calendar momentoAtual = Calendar.getInstance();
+                Calendar momentoSelecionado = Calendar.getInstance();
+                momentoSelecionado.set(anoFinal, mesFinal, diaFinal, horaFinal, minutoFinal, 0);
+
+                if (momentoSelecionado.before(momentoAtual)) {
+                    Toast.makeText(CadastroAgendamentoActivity.this, "Não pode agendar para um horário que já passou hoje!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (campoTarget == editDataHoraFim && !dataInicioAPI.isEmpty()) {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
-                        Date inicioDate = sdf.parse(editDataHoraInicio.getText().toString());
+                        Date inicioDate = sdf.parse(dataInicioAPI);
 
                         Calendar calFim = Calendar.getInstance();
                         calFim.set(year, month, dayOfMonth, horaAjustada, minutoAjustado, 0);
@@ -138,13 +152,24 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
                     }
                 }
 
-                String dataFormatada = String.format(Locale.getDefault(), "%04d-%02d-%02dT%02d:%02d:00",
-                        anoFinal, mesFinal + 1, diaFinal, horaFinal, minutoFinal);
-                campoTarget.setText(dataFormatada);
+                // O formato ISO que a API exige
+                String dataISO = String.format(Locale.getDefault(), "%04d-%02d-%02dT%02d:%02d:00", anoFinal, mesFinal + 1, diaFinal, horaFinal, minutoFinal);
+
+                // O formato amigável para o utilizador ler no ecrã
+                String dataVisivel = String.format(Locale.getDefault(), "%02d/%02d/%04d às %02d:%02d", diaFinal, mesFinal + 1, anoFinal, horaFinal, minutoFinal);
+
+                if (campoTarget == editDataHoraInicio) {
+                    dataInicioAPI = dataISO;
+                } else {
+                    dataFimAPI = dataISO;
+                }
+                campoTarget.setText(dataVisivel);
+
             }, horaInicial, minutoInicial, true);
             timePickerDialog.show();
 
         }, anoInicial, mesInicial, diaInicial);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 
@@ -157,7 +182,6 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
                     listaQuadras = response.body();
                     List<String> exibicaoQuadras = new ArrayList<>();
 
-                    // Formata a exibição incluindo o preço por hora da quadra
                     for (Quadra q : listaQuadras) {
                         if (q.getPrecoHora() != null) {
                             exibicaoQuadras.add(q.getNome() + " - R$ " + q.getPrecoHora() + "/h");
@@ -193,8 +217,8 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
 
         Quadra quadraSelecionada = listaQuadras.get(spinnerQuadras.getSelectedItemPosition());
         String nomeCliente = editNomeCliente.getText().toString().trim();
-        String inicio = editDataHoraInicio.getText().toString().trim();
-        String fim = editDataHoraFim.getText().toString().trim();
+        String inicio = dataInicioAPI; // Usa a variável invisível formatada para a API
+        String fim = dataFimAPI;       // Usa a variável invisível formatada para a API
         String status = editStatus.getText().toString().trim();
 
         if (nomeCliente.isEmpty() || inicio.isEmpty() || fim.isEmpty() || status.isEmpty()) {
@@ -202,13 +226,11 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
             return;
         }
 
-        // Validação básica: início deve ser anterior ao fim
         if (inicio.compareTo(fim) >= 0) {
             Toast.makeText(this, "O horário de fim deve ser posterior ao horário de início!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        // REGRA 2: Valida se a duração do agendamento é de no mínimo 1 hora (60 minutos)
         if (!validarDuracaoMinima(inicio, fim)) {
             Toast.makeText(this, "O agendamento deve ter no mínimo 1 hora de duração!", Toast.LENGTH_LONG).show();
             return;
@@ -250,7 +272,7 @@ public class CadastroAgendamentoActivity extends AppCompatActivity {
 
             if (inicio != null && fim != null) {
                 long diferencaMilis = fim.getTime() - inicio.getTime();
-                long minutosDiferenca = diferencaMilis / (1000 * 60);
+                long minutosDiferenca = diferencaMilis / (1000 * 60); // Corrigido erro de sintaxe
 
                 return minutosDiferenca >= 60;
             }
